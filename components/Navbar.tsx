@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { Globe, UserCheck } from "lucide-react";
 import { useToast } from "./ToastContext";
@@ -12,6 +12,53 @@ interface NavbarProps {
 export default function Navbar({ onOpenModal }: NavbarProps) {
   const { showToast } = useToast();
   const [lang, setLang] = useState<"UZ" | "RU" | "EN">("UZ");
+  const [activeSection, setActiveSection] = useState<string>("hero");
+
+  const navItems = [
+    { id: "hero", label: "🏠 ASOSIY", href: "#hero" },
+    { id: "pricing", label: "⚡ TARIFLAR", href: "#pricing" },
+    { id: "pterodactyl", label: "🚀 PTERODACTYL", href: "#pterodactyl" },
+    { id: "features", label: "💎 AFZALLIKLAR", href: "#features" },
+    { id: "nodes", label: "📊 STATUS", href: "#nodes" },
+    { id: "faq", label: "❓ FAQ", href: "#faq" },
+  ];
+
+  // Scroll-spy: Detect current active section based on scroll position
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 200; // Offset for navbar height
+
+      for (const item of navItems) {
+        const element = document.getElementById(item.id);
+        if (element) {
+          const top = element.offsetTop;
+          const height = element.offsetHeight;
+          if (scrollPosition >= top && scrollPosition < top + height) {
+            setActiveSection(item.id);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // Initial check
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string, href: string) => {
+    e.preventDefault();
+    setActiveSection(id);
+    const element = document.getElementById(id);
+    if (element) {
+      const top = element.offsetTop - 90; // Clear floating navbar
+      window.scrollTo({
+        top: Math.max(0, top),
+        behavior: "smooth",
+      });
+    }
+  };
 
   const toggleLanguage = () => {
     const nextLang = lang === "UZ" ? "RU" : lang === "RU" ? "EN" : "UZ";
@@ -30,7 +77,11 @@ export default function Navbar({ onOpenModal }: NavbarProps) {
       <div className="glass-effect rounded-[2.5rem] px-7 h-[68px] flex items-center justify-between shadow-2xl">
         
         {/* Brand Logo */}
-        <a href="#" className="flex items-center gap-3 group transition-transform hover:scale-105">
+        <a
+          href="#hero"
+          onClick={(e) => handleNavClick(e, "hero", "#hero")}
+          className="flex items-center gap-3 group transition-transform hover:scale-105"
+        >
           <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white/20 shadow-[0_0_15px_rgba(56,189,248,0.25)]">
             <Image
               src="/logo.jpg"
@@ -45,44 +96,25 @@ export default function Navbar({ onOpenModal }: NavbarProps) {
           </span>
         </a>
 
-        {/* Center Pill Navigation */}
+        {/* Center Pill Navigation with Dynamic Active Highlighting */}
         <nav className="hidden lg:flex items-center justify-center gap-1.5">
-          <a
-            href="#"
-            className="px-4 py-2 rounded-full text-xs font-black tracking-wider uppercase transition-all bg-white/10 text-white shadow-lg shadow-white/5"
-          >
-            🏠 ASOSIY
-          </a>
-          <a
-            href="#pricing"
-            className="px-4 py-2 rounded-full text-xs font-black tracking-wider uppercase transition-all text-white/70 hover:text-white hover:bg-white/10"
-          >
-            ⚡ TARIFLAR
-          </a>
-          <a
-            href="#pterodactyl"
-            className="px-4 py-2 rounded-full text-xs font-black tracking-wider uppercase transition-all text-white/70 hover:text-white hover:bg-white/10"
-          >
-            🚀 PTERODACTYL
-          </a>
-          <a
-            href="#features"
-            className="px-4 py-2 rounded-full text-xs font-black tracking-wider uppercase transition-all text-white/70 hover:text-white hover:bg-white/10"
-          >
-            💎 AFZALLIKLAR
-          </a>
-          <a
-            href="#nodes"
-            className="px-4 py-2 rounded-full text-xs font-black tracking-wider uppercase transition-all text-white/70 hover:text-white hover:bg-white/10"
-          >
-            📊 STATUS
-          </a>
-          <a
-            href="#faq"
-            className="px-4 py-2 rounded-full text-xs font-black tracking-wider uppercase transition-all text-white/70 hover:text-white hover:bg-white/10"
-          >
-            ❓ FAQ
-          </a>
+          {navItems.map((item) => {
+            const isActive = activeSection === item.id;
+            return (
+              <a
+                key={item.id}
+                href={item.href}
+                onClick={(e) => handleNavClick(e, item.id, item.href)}
+                className={`px-4 py-2 rounded-full text-xs font-black tracking-wider uppercase transition-all duration-300 cursor-pointer ${
+                  isActive
+                    ? "bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-[0_0_20px_rgba(56,189,248,0.45)] border border-sky-400/40 scale-105"
+                    : "text-slate-300/75 hover:text-white hover:bg-white/10"
+                }`}
+              >
+                {item.label}
+              </a>
+            );
+          })}
         </nav>
 
         {/* Right Actions */}

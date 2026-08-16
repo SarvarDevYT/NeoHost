@@ -22,7 +22,7 @@ export default function Hero({ onOpenModal }: HeroProps) {
   };
 
   return (
-    <section className="relative min-h-[95vh] pt-32 pb-20 flex flex-col items-center justify-center text-center overflow-hidden">
+    <section id="hero" className="relative min-h-[95vh] pt-32 pb-20 flex flex-col items-center justify-center text-center overflow-hidden">
       
       {/* Soft Ambient Background Glows */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[1200px] h-full pointer-events-none z-0">
