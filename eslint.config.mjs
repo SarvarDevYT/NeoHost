@@ -1,11 +1,18 @@
-export default [
+import nextPlugin from "@next/eslint-plugin-next";
+
+const eslintConfig = [
   {
     ignores: [".next/**", "node_modules/**", "public/**"],
   },
   {
+    plugins: {
+      "@next/next": nextPlugin,
+    },
     rules: {
-      "no-unused-vars": "warn",
-      "no-console": "off",
+      ...nextPlugin.configs.recommended.rules,
+      ...nextPlugin.configs["core-web-vitals"].rules,
     },
   },
 ];
+
+export default eslintConfig;
