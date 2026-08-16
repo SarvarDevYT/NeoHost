@@ -1,0 +1,255 @@
+"use client";
+
+import React, { useState, useEffect, useRef } from "react";
+import { Play, RotateCw, Square, Terminal as TermIcon } from "lucide-react";
+import { useToast } from "./ToastContext";
+
+interface LogEntry {
+  id: string;
+  time: string;
+  type: "INFO" | "SUCCESS" | "WARN";
+  message: string;
+}
+
+export default function HeroConsole() {
+  const { showToast } = useToast();
+  const [logs, setLogs] = useState<LogEntry[]>([
+    { id: "1", time: "[10:15:02]", type: "INFO", message: "Pterodactyl Daemon (Wings) v1.11.8 connected securely." },
+    { id: "2", time: "[10:15:04]", type: "INFO", message: "PaperSpigot 1.21 initialized with Java 21 OpenJDK." },
+    { id: "3", time: "[10:15:06]", type: "SUCCESS", message: "Done (1.89s)! Server listening on 0.0.0.0:25565" },
+    { id: "4", time: "[10:15:09]", type: "INFO", message: "Player [Iskandar_Neo] joined the game from Tashkent (12ms)" },
+    { id: "5", time: "[10:15:15]", type: "SUCCESS", message: "TPS: 20.0 (Memory: 3.4GB / 8GB)" },
+  ]);
+  const [cmdInput, setCmdInput] = useState("");
+  const [status, setStatus] = useState<"ONLINE" | "RESTARTING" | "OFFLINE">("ONLINE");
+  const terminalBoxRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (terminalBoxRef.current) {
+      terminalBoxRef.current.scrollTop = terminalBoxRef.current.scrollHeight;
+    }
+  }, [logs]);
+
+  const getTimeString = () => {
+    const d = new Date();
+    return `[${d.toTimeString().split(" ")[0]}]`;
+  };
+
+  const handleCommandSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Sanitize command input: strip control characters, limit length to 80 chars
+    const cmd = cmdInput.trim().replace(/[\x00-\x1F\x7F<>]/g, "").slice(0, 80);
+    if (!cmd) return;
+
+    const time = getTimeString();
+    const newLogs: LogEntry[] = [
+      ...logs,
+      { id: Date.now().toString(), time, type: "INFO", message: `> ${cmd}` },
+    ];
+
+    const lower = cmd.toLowerCase();
+    if (lower === "/help" || lower === "help") {
+      newLogs.push({
+        id: (Date.now() + 1).toString(),
+        time,
+        type: "INFO",
+        message: "Mavjud buyruqlar: /tps, /list, /status, /say <matn>, /restart, /stop, /clear",
+      });
+    } else if (lower === "/tps") {
+      newLogs.push({
+        id: (Date.now() + 1).toString(),
+        time,
+        type: "SUCCESS",
+        message: "TPS: 20.0, 20.0, 20.0 (Xotira: 3.4GB / 8GB, Barqaror: 100%)",
+      });
+    } else if (lower === "/list") {
+      newLogs.push({
+        id: (Date.now() + 1).toString(),
+        time,
+        type: "INFO",
+        message: "Onlayn o'yinchilar (3/100): Iskandar_Neo, SarvarDev, NeoAdmin",
+      });
+    } else if (lower === "/status") {
+      newLogs.push({
+        id: (Date.now() + 1).toString(),
+        time,
+        type: "SUCCESS",
+        message: "Node: node-01.neohost.uz (Toshkent), CPU: 14%, Anti-DDoS: Faol",
+      });
+    } else if (lower.startsWith("/say ")) {
+      const msg = cmd.substring(5);
+      newLogs.push({
+        id: (Date.now() + 1).toString(),
+        time,
+        type: "INFO",
+        message: `[Broadcast] Server Admin: ${msg}`,
+      });
+      showToast(`📢 Xabar yuborildi: "${msg}"`);
+    } else if (lower === "/clear" || lower === "clear") {
+      setLogs([]);
+      setCmdInput("");
+      return;
+    } else {
+      newLogs.push({
+        id: (Date.now() + 1).toString(),
+        time,
+        type: "WARN",
+        message: `Noma'lum buyruq: "${cmd}". Yordam uchun /help deb yozing.`,
+      });
+    }
+
+    setLogs(newLogs);
+    setCmdInput("");
+  };
+
+  const handleStart = () => {
+    setStatus("ONLINE");
+    const time = getTimeString();
+    setLogs((prev) => [
+      ...prev,
+      { id: Date.now().toString(), time, type: "INFO", message: "Server ishga tushirilmoqda..." },
+      { id: (Date.now() + 1).toString(), time, type: "SUCCESS", message: "Server muvaffaqiyatli yoqildi! (0.0.0.0:25565)" },
+    ]);
+    showToast("▶ Server yoqildi!");
+  };
+
+  const handleRestart = () => {
+    setStatus("RESTARTING");
+    showToast("🔄 Server qayta ishga tushirilmoqda...");
+    const time = getTimeString();
+    setLogs((prev) => [
+      ...prev,
+      { id: Date.now().toString(), time, type: "WARN", message: "Server qayta ishga tushirilmoqda (Restart)..." },
+    ]);
+    setTimeout(() => {
+      setStatus("ONLINE");
+      const t = getTimeString();
+      setLogs((prev) => [
+        ...prev,
+        { id: Date.now().toString(), time: t, type: "SUCCESS", message: "Server qayta ishga tushdi (20.0 TPS)!" },
+      ]);
+      showToast("✅ Server qayta ishga tushdi!");
+    }, 1500);
+  };
+
+  const handleStop = () => {
+    setStatus("OFFLINE");
+    const time = getTimeString();
+    setLogs((prev) => [
+      ...prev,
+      { id: Date.now().toString(), time, type: "WARN", message: "Server to'xtatildi (Server stopped)." },
+    ]);
+    showToast("⏹ Server to'xtatildi.");
+  };
+
+  return (
+    <div className="w-full max-w-[1000px] mx-auto mt-12">
+      <div className="bg-[#0e121a]/85 border border-white/10 rounded-[2rem] overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.8)]">
+        
+        {/* Header Bar */}
+        <div className="px-6 py-3.5 bg-white/[0.03] border-b border-white/[0.08] flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-2.5 h-2.5 rounded-full bg-red-500" />
+            <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />
+            <div className="w-2.5 h-2.5 rounded-full bg-primary" />
+          </div>
+          
+          <div className="font-mono text-xs flex items-center gap-2 text-zinc-400">
+            <span>⚡ node-01.neohost.uz</span>
+            <span className="text-primary font-bold">[v1.21 PaperSpigot]</span>
+          </div>
+
+          <div
+            className={`px-3 py-1 rounded-full text-[11px] font-black tracking-wider uppercase ${
+              status === "ONLINE"
+                ? "bg-primary/15 text-primary"
+                : status === "RESTARTING"
+                ? "bg-amber-500/15 text-amber-400"
+                : "bg-red-500/15 text-red-400"
+            }`}
+          >
+            ● {status}
+          </div>
+        </div>
+
+        {/* Console Body */}
+        <div className="p-6 flex flex-col gap-4">
+          
+          {/* Terminal Logs Area */}
+          <div
+            ref={terminalBoxRef}
+            className="bg-[#060709] border border-white/[0.06] rounded-2xl p-4 font-mono text-[13px] h-44 overflow-y-auto flex flex-col gap-1 text-left"
+          >
+            {logs.map((log) => (
+              <div key={log.id} className="flex items-baseline gap-2">
+                <span className="text-zinc-500 shrink-0">{log.time}</span>
+                <span
+                  className={`font-bold shrink-0 ${
+                    log.type === "SUCCESS"
+                      ? "text-primary"
+                      : log.type === "WARN"
+                      ? "text-yellow-400"
+                      : "text-sky-400"
+                  }`}
+                >
+                  [{log.type}]
+                </span>
+                <span className="text-zinc-300">{log.message}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Command Prompt Input */}
+          <form onSubmit={handleCommandSubmit} className="flex items-center gap-2.5 bg-[#060709] border border-primary/30 rounded-2xl px-4 py-2.5">
+            <span className="text-primary font-mono font-bold text-sm">&gt;</span>
+            <input
+              type="text"
+              value={cmdInput}
+              onChange={(e) => setCmdInput(e.target.value)}
+              placeholder="Buyruq kiriting: /tps, /list, /status, /help, /say ..."
+              className="flex-1 bg-transparent border-none outline-none text-white font-mono text-sm placeholder:text-zinc-600"
+              title="Server buyrug'i"
+              aria-label="Server buyrug'i"
+            />
+            <button type="submit" className="text-xs font-mono font-bold text-primary hover:text-white px-2 py-1 transition-colors">
+              Yuborish ↵
+            </button>
+          </form>
+
+          {/* Controls Footer */}
+          <div className="flex items-center justify-between flex-wrap gap-3 pt-1">
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleStart}
+                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold bg-white/5 hover:bg-white/10 text-white transition-all cursor-pointer"
+              >
+                <Play className="w-3.5 h-3.5 text-primary" />
+                <span>Start</span>
+              </button>
+              <button
+                onClick={handleRestart}
+                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 transition-all cursor-pointer"
+              >
+                <RotateCw className="w-3.5 h-3.5" />
+                <span>Restart</span>
+              </button>
+              <button
+                onClick={handleStop}
+                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold bg-red-500/10 hover:bg-red-500/20 text-red-400 transition-all cursor-pointer"
+              >
+                <Square className="w-3.5 h-3.5" />
+                <span>Stop</span>
+              </button>
+            </div>
+
+            <div className="text-zinc-500 font-mono text-xs">
+              SFTP: <span className="text-zinc-300">node1.neohost.uz:2022</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  );
+}
