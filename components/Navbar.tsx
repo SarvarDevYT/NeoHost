@@ -82,7 +82,7 @@ export default function Navbar({ onOpenModal }: NavbarProps) {
           onClick={(e) => handleNavClick(e, "hero", "#hero")}
           className="flex items-center gap-3 group transition-transform hover:scale-105"
         >
-          <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white/20 shadow-[0_0_15px_rgba(56,189,248,0.25)]">
+          <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.15)]">
             <Image
               src="/logo.jpg"
               alt="NeoHost Logo"
@@ -96,7 +96,7 @@ export default function Navbar({ onOpenModal }: NavbarProps) {
           </span>
         </a>
 
-        {/* Center Pill Navigation with Dynamic Active Highlighting */}
+        {/* Center Pill Navigation: Clean subtle active glass indicator */}
         <nav className="hidden lg:flex items-center justify-center gap-1.5">
           {navItems.map((item) => {
             const isActive = activeSection === item.id;
@@ -105,10 +105,10 @@ export default function Navbar({ onOpenModal }: NavbarProps) {
                 key={item.id}
                 href={item.href}
                 onClick={(e) => handleNavClick(e, item.id, item.href)}
-                className={`px-4 py-2 rounded-full text-xs font-black tracking-wider uppercase transition-all duration-300 cursor-pointer ${
+                className={`px-4 py-2 rounded-full text-xs font-black tracking-wider uppercase transition-all duration-200 cursor-pointer ${
                   isActive
-                    ? "bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-[0_0_20px_rgba(56,189,248,0.45)] border border-sky-400/40 scale-105"
-                    : "text-slate-300/75 hover:text-white hover:bg-white/10"
+                    ? "bg-white/10 text-white shadow-lg shadow-white/5 border border-white/10"
+                    : "text-white/70 hover:text-white hover:bg-white/5 border border-transparent"
                 }`}
               >
                 {item.label}
@@ -133,7 +133,7 @@ export default function Navbar({ onOpenModal }: NavbarProps) {
           {/* Login / Panel Action Button */}
           <button
             onClick={() => onOpenModal("Neo Free Starter")}
-            className="inline-flex items-center justify-center gap-1.5 h-10 px-6 rounded-full bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-sky-500/25 transition-all hover:-translate-y-0.5 cursor-pointer whitespace-nowrap"
+            className="inline-flex items-center justify-center gap-1.5 h-10 px-6 rounded-full bg-white hover:bg-white/90 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg transition-all hover:-translate-y-0.5 cursor-pointer whitespace-nowrap"
           >
             <UserCheck className="w-3.5 h-3.5 stroke-[2.5]" />
             <span>PANELGA KIRISH</span>
