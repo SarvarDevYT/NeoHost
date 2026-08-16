@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import { Terminal, FolderGit2, Database, ShieldAlert } from "lucide-react";
 
 export default function PterodactylTour() {
   return (
@@ -13,7 +14,7 @@ export default function PterodactylTour() {
           <h2 className="title-section text-white italic uppercase tracking-tighter liquid-shadow mb-3">
             ZAMONAVIY <span className="gradient-text">PTERODACTYL PANEL</span>
           </h2>
-          <p className="text-zinc-400 font-medium text-lg">
+          <p className="text-slate-400 font-medium text-lg">
             Har qanday o'yin serverini professional tarzda boshqaring: konsol, fayllar, backup va plaginlar bir joyda.
           </p>
         </div>
@@ -23,30 +24,38 @@ export default function PterodactylTour() {
           {/* Features Column */}
           <div className="lg:col-span-5 flex flex-col gap-4">
             
-            <div className="glass-effect p-5 rounded-2xl border-l-4 border-primary">
-              <h4 className="text-white font-bold text-base mb-1">⚡ Jonli Web Konsol & Tezkor Boshqaruv</h4>
-              <p className="text-zinc-400 text-xs leading-relaxed">
+            <div className="glass-effect p-5 rounded-2xl border-l-4 border-sky-400">
+              <h4 className="text-white font-bold text-base mb-1 flex items-center gap-2">
+                <Terminal className="w-4 h-4 text-sky-400" /> Jonli Web Konsol & Tezkor Boshqaruv
+              </h4>
+              <p className="text-slate-400 text-xs leading-relaxed">
                 Serveringiz loglarini real vaqtda kuzating, buyruqlarni yuboring va bir zumda qayta ishga tushiring.
               </p>
             </div>
 
-            <div className="glass-effect p-5 rounded-2xl">
-              <h4 className="text-white font-bold text-base mb-1">📁 Web Fayl Menejeri & SFTP</h4>
-              <p className="text-zinc-400 text-xs leading-relaxed">
+            <div className="glass-effect p-5 rounded-2xl border-l-4 border-indigo-400">
+              <h4 className="text-white font-bold text-base mb-1 flex items-center gap-2">
+                <FolderGit2 className="w-4 h-4 text-indigo-400" /> Web Fayl Menejeri & SFTP
+              </h4>
+              <p className="text-slate-400 text-xs leading-relaxed">
                 Brauzer ichida fayllarni to'g'ridan-to'g'ri tahrirlang yoki FileZilla / WinSCP orqali cheksiz tezlikda yuklang.
               </p>
             </div>
 
-            <div className="glass-effect p-5 rounded-2xl">
-              <h4 className="text-white font-bold text-base mb-1">💾 1-Klikda Avtomatik Zaxira (Backup)</h4>
-              <p className="text-zinc-400 text-xs leading-relaxed">
+            <div className="glass-effect p-5 rounded-2xl border-l-4 border-emerald-400">
+              <h4 className="text-white font-bold text-base mb-1 flex items-center gap-2">
+                <ShieldAlert className="w-4 h-4 text-emerald-400" /> 1-Klikda Avtomatik Zaxira (Backup)
+              </h4>
+              <p className="text-slate-400 text-xs leading-relaxed">
                 Dunyolaringiz va sozlamalaringizni bir tugma bilan saqlang va soniyada qayta tiklang.
               </p>
             </div>
 
-            <div className="glass-effect p-5 rounded-2xl">
-              <h4 className="text-white font-bold text-base mb-1">🗄️ MySQL / MariaDB Ma'lumotlar Bazasi</h4>
-              <p className="text-zinc-400 text-xs leading-relaxed">
+            <div className="glass-effect p-5 rounded-2xl border-l-4 border-violet-400">
+              <h4 className="text-white font-bold text-base mb-1 flex items-center gap-2">
+                <Database className="w-4 h-4 text-violet-400" /> MySQL / MariaDB Ma'lumotlar Bazasi
+              </h4>
+              <p className="text-slate-400 text-xs leading-relaxed">
                 AuthMe, LuckPerms, CoreProtect kabi plaginlar uchun bepul MySQL bazani bir bosishda faollashtiring.
               </p>
             </div>
@@ -55,7 +64,7 @@ export default function PterodactylTour() {
 
           {/* Screenshot Preview Column */}
           <div className="lg:col-span-7">
-            <div className="relative rounded-[2rem] overflow-hidden border border-primary/35 shadow-[0_25px_60px_rgba(0,0,0,0.85),0_0_35px_rgba(34,197,94,0.15)] group">
+            <div className="relative rounded-[2rem] overflow-hidden border border-sky-500/30 shadow-[0_25px_60px_rgba(0,0,0,0.85),0_0_35px_rgba(56,189,248,0.15)] group">
               <Image
                 src="/dashboard_preview.jpg"
                 alt="NeoHost Pterodactyl Dashboard Preview"

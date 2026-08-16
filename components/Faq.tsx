@@ -34,7 +34,7 @@ export default function Faq() {
           <h2 className="title-section text-white italic uppercase tracking-tighter liquid-shadow mb-3">
             KO'P BERILADIGAN <span className="gradient-text">SAVOLLAR</span>
           </h2>
-          <p className="text-zinc-400 font-medium text-lg">
+          <p className="text-slate-400 font-medium text-lg">
             NeoHost va server yaratish haqida eng asosiy javoblar.
           </p>
         </div>
@@ -48,8 +48,8 @@ export default function Faq() {
                 key={index}
                 className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
                   isOpen
-                    ? "border-primary/40 bg-zinc-900/80 shadow-[0_0_25px_rgba(34,197,94,0.1)]"
-                    : "border-white/10 bg-zinc-900/50 hover:border-white/20"
+                    ? "border-sky-500/40 bg-[#0e121c]/90 shadow-[0_0_25px_rgba(56,189,248,0.1)]"
+                    : "border-white/10 bg-[#0a0d14]/60 hover:border-white/20"
                 }`}
               >
                 <button
@@ -58,14 +58,14 @@ export default function Faq() {
                 >
                   <span>{faq.q}</span>
                   <ChevronDown
-                    className={`w-5 h-5 text-primary transition-transform duration-300 ${
+                    className={`w-5 h-5 text-sky-400 transition-transform duration-300 ${
                       isOpen ? "rotate-180" : ""
                     }`}
                   />
                 </button>
 
                 {isOpen && (
-                  <div className="px-7 pb-6 text-zinc-400 text-sm leading-relaxed border-t border-white/5 pt-4">
+                  <div className="px-7 pb-6 text-slate-400 text-sm leading-relaxed border-t border-white/5 pt-4">
                     {faq.a}
                   </div>
                 )}

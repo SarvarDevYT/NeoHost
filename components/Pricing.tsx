@@ -102,7 +102,7 @@ export default function Pricing({ onOpenModal }: PricingProps) {
           <h2 className="title-section text-white italic uppercase tracking-tighter liquid-shadow mb-3">
             XUSH KELIBSIZ! <span className="gradient-text">TARIFLAR VA REJALAR</span>
           </h2>
-          <p className="text-zinc-400 font-medium text-lg">
+          <p className="text-slate-400 font-medium text-lg">
             O'zingizga mos tarifni tanlang yoki bepul starter rejadan boshlab serveringizni rivojlantiring.
           </p>
         </div>
@@ -120,7 +120,7 @@ export default function Pricing({ onOpenModal }: PricingProps) {
               onClick={() => setFilter(item.id as any)}
               className={`px-5 py-2.5 rounded-full text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${
                 filter === item.id
-                  ? "bg-primary text-primary-foreground shadow-[0_4px_20px_rgba(34,197,94,0.35)]"
+                  ? "bg-sky-500 text-white shadow-[0_4px_20px_rgba(56,189,248,0.35)]"
                   : "bg-white/5 border border-white/10 text-white/70 hover:bg-white/10 hover:text-white"
               }`}
             >
@@ -135,34 +135,34 @@ export default function Pricing({ onOpenModal }: PricingProps) {
             <div
               key={plan.id}
               className={`neoterra-card group ${
-                plan.featured ? "card-featured border-2 border-primary" : "border border-zinc-800"
+                plan.featured ? "card-featured border-2 border-sky-400/80" : "border border-white/10"
               }`}
             >
               <div>
                 <div className="flex justify-between items-center mb-1.5">
-                  <h3 className={`text-2xl font-black italic uppercase ${plan.featured ? "text-primary" : "text-white"}`}>
+                  <h3 className={`text-2xl font-black italic uppercase ${plan.featured ? "text-sky-400" : "text-white"}`}>
                     {plan.name}
                   </h3>
                   {plan.featured && (
-                    <span className="px-2 py-0.5 rounded-full bg-primary text-black text-[10px] font-black tracking-wider uppercase">
+                    <span className="px-2.5 py-0.5 rounded-full bg-gradient-to-r from-sky-400 to-indigo-500 text-slate-950 text-[10px] font-black tracking-wider uppercase">
                       OMMABOP
                     </span>
                   )}
                 </div>
 
-                <p className="text-zinc-400 text-sm mb-4 leading-relaxed">{plan.desc}</p>
+                <p className="text-slate-400 text-sm mb-4 leading-relaxed">{plan.desc}</p>
 
                 <div className="flex items-baseline gap-1.5 my-4">
                   <div className={`text-4xl font-black ${plan.featured ? "gradient-text" : "text-white"}`}>
                     {plan.price}
                   </div>
-                  <div className="text-zinc-500 text-xs font-bold">{plan.period}</div>
+                  <div className="text-slate-500 text-xs font-bold">{plan.period}</div>
                 </div>
 
                 <ul className="space-y-3 pt-5 border-t border-white/10 mb-7">
                   {plan.features.map((feat, idx) => (
-                    <li key={idx} className="flex items-center gap-2.5 text-xs text-zinc-400">
-                      <Check className="w-4 h-4 text-primary shrink-0 stroke-[2.5]" />
+                    <li key={idx} className="flex items-center gap-2.5 text-xs text-slate-400">
+                      <Check className="w-4 h-4 text-emerald-400 shrink-0 stroke-[2.5]" />
                       <span>
                         <strong className="text-white font-bold">{feat.strong} </strong>
                         {feat.text}
@@ -176,7 +176,7 @@ export default function Pricing({ onOpenModal }: PricingProps) {
                 onClick={() => onOpenModal(`${plan.name} (${plan.price})`)}
                 className={`w-full py-3.5 rounded-full font-black text-xs uppercase tracking-wider transition-all cursor-pointer ${
                   plan.buttonStyle === "primary"
-                    ? "bg-primary hover:bg-primary/80 text-primary-foreground shadow-lg shadow-primary/25 hover:-translate-y-0.5"
+                    ? "bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white shadow-lg shadow-sky-500/25 hover:-translate-y-0.5"
                     : "bg-white/10 hover:bg-white/20 text-white"
                 }`}
               >
@@ -187,15 +187,15 @@ export default function Pricing({ onOpenModal }: PricingProps) {
         </div>
 
         {/* Custom RAM Slider Configurator Card */}
-        <div className="mt-14 rounded-[2rem] p-8 md:p-10 border border-primary/30 bg-gradient-to-br from-zinc-900/80 to-zinc-950/95 shadow-2xl">
+        <div className="mt-14 rounded-[2rem] p-8 md:p-10 border border-sky-500/30 bg-gradient-to-br from-[#0c101a]/90 to-[#07090f]/95 shadow-2xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
             {/* Left Controls */}
             <div className="lg:col-span-7">
-              <h3 className="text-2xl font-black italic uppercase text-primary mb-2 flex items-center gap-2">
+              <h3 className="text-2xl font-black italic uppercase text-sky-400 mb-2 flex items-center gap-2">
                 <Rocket className="w-6 h-6" /> O'z Serveringizni Yig'ing
               </h3>
-              <p className="text-zinc-400 text-sm mb-6">
+              <p className="text-slate-400 text-sm mb-6">
                 Slayderni surib kerakli RAM hajmini belgilang, tizim protsessor va diskni avtomatik hisoblab beradi.
               </p>
 
@@ -204,7 +204,7 @@ export default function Pricing({ onOpenModal }: PricingProps) {
                   <label htmlFor="ram-range" className="font-bold text-sm text-white">
                     Operativ Xotira (RAM):
                   </label>
-                  <span className="px-3 py-1 rounded-full bg-primary/15 text-primary text-xs font-mono font-bold">
+                  <span className="px-3 py-1 rounded-full bg-sky-500/15 text-sky-400 text-xs font-mono font-bold border border-sky-500/30">
                     {ram} GB DDR4/DDR5
                   </span>
                 </div>
@@ -222,15 +222,15 @@ export default function Pricing({ onOpenModal }: PricingProps) {
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <div className="glass-effect p-3.5 rounded-2xl">
-                  <div className="text-[11px] text-zinc-500 uppercase font-black tracking-wider flex items-center gap-1.5">
-                    <Cpu className="w-3.5 h-3.5 text-primary" /> Protsessor
+                <div className="glass-effect p-3.5 rounded-2xl border border-white/10">
+                  <div className="text-[11px] text-slate-500 uppercase font-black tracking-wider flex items-center gap-1.5">
+                    <Cpu className="w-3.5 h-3.5 text-sky-400" /> Protsessor
                   </div>
-                  <div className="font-mono text-primary font-bold text-base mt-1">{cpu}</div>
+                  <div className="font-mono text-sky-400 font-bold text-base mt-1">{cpu}</div>
                 </div>
-                <div className="glass-effect p-3.5 rounded-2xl">
-                  <div className="text-[11px] text-zinc-500 uppercase font-black tracking-wider flex items-center gap-1.5">
-                    <HardDrive className="w-3.5 h-3.5 text-primary" /> Disk Xotirasi
+                <div className="glass-effect p-3.5 rounded-2xl border border-white/10">
+                  <div className="text-[11px] text-slate-500 uppercase font-black tracking-wider flex items-center gap-1.5">
+                    <HardDrive className="w-3.5 h-3.5 text-indigo-400" /> Disk Xotirasi
                   </div>
                   <div className="font-mono text-white font-bold text-base mt-1">{disk}</div>
                 </div>
@@ -238,22 +238,22 @@ export default function Pricing({ onOpenModal }: PricingProps) {
             </div>
 
             {/* Right Summary Box */}
-            <div className="lg:col-span-5 glass-effect p-8 rounded-[2rem] text-center flex flex-col justify-center">
-              <div className="text-xs text-zinc-400 uppercase font-black tracking-widest">Taxminiy Narx:</div>
+            <div className="lg:col-span-5 glass-effect p-8 rounded-[2rem] text-center flex flex-col justify-center border border-white/10">
+              <div className="text-xs text-slate-400 uppercase font-black tracking-widest">Taxminiy Narx:</div>
               <div className="text-4xl font-black my-3 text-white liquid-shadow">
                 {price === 0 ? (
-                  <span className="text-primary">0 so'm</span>
+                  <span className="text-emerald-400">0 so'm</span>
                 ) : (
                   <span>{price.toLocaleString("uz-UZ")} so'm</span>
                 )}
-                <span className="text-xs text-zinc-500 font-normal ml-1">/ oyiga</span>
+                <span className="text-xs text-slate-500 font-normal ml-1">/ oyiga</span>
               </div>
-              <p className="text-zinc-500 text-xs mb-5">
+              <p className="text-slate-500 text-xs mb-5">
                 * 1-3 GB hajmdagi serverlar yangi foydalanuvchilar uchun bepul beriladi!
               </p>
               <button
                 onClick={() => onOpenModal(`Custom Server (${ram} GB RAM)`)}
-                className="w-full py-3.5 rounded-full bg-primary hover:bg-primary/80 text-primary-foreground font-black text-xs uppercase tracking-wider shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5 cursor-pointer"
+                className="w-full py-3.5 rounded-full bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-sky-500/25 transition-all hover:-translate-y-0.5 cursor-pointer"
               >
                 HOSTING SERVERINI YARATISH
               </button>

@@ -31,7 +31,7 @@ export default function Navbar({ onOpenModal }: NavbarProps) {
         
         {/* Brand Logo */}
         <a href="#" className="flex items-center gap-3 group transition-transform hover:scale-105">
-          <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white/20 shadow-[0_0_15px_rgba(34,197,94,0.3)]">
+          <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white/20 shadow-[0_0_15px_rgba(56,189,248,0.25)]">
             <Image
               src="/logo.jpg"
               alt="NeoHost Logo"
@@ -41,7 +41,7 @@ export default function Navbar({ onOpenModal }: NavbarProps) {
             />
           </div>
           <span className="text-2xl font-black tracking-tighter text-white liquid-shadow whitespace-nowrap">
-            NEO <span className="text-primary">HOST</span>
+            NEO <span className="text-sky-400">HOST</span>
           </span>
         </a>
 
@@ -94,14 +94,14 @@ export default function Navbar({ onOpenModal }: NavbarProps) {
             title="Tilni almashtirish"
             aria-label="Tilni almashtirish"
           >
-            <Globe className="w-3.5 h-3.5 text-primary" />
+            <Globe className="w-3.5 h-3.5 text-sky-400" />
             <span>{lang}</span>
           </button>
 
           {/* Login / Panel Action Button */}
           <button
             onClick={() => onOpenModal("Neo Free Starter")}
-            className="inline-flex items-center justify-center gap-1.5 h-10 px-6 rounded-full bg-primary hover:bg-primary/80 text-primary-foreground font-black text-xs uppercase tracking-wider shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5 cursor-pointer whitespace-nowrap"
+            className="inline-flex items-center justify-center gap-1.5 h-10 px-6 rounded-full bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-sky-500/25 transition-all hover:-translate-y-0.5 cursor-pointer whitespace-nowrap"
           >
             <UserCheck className="w-3.5 h-3.5 stroke-[2.5]" />
             <span>PANELGA KIRISH</span>

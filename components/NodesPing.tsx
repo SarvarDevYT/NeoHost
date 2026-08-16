@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { RefreshCw } from "lucide-react";
+import { RefreshCw, Radio } from "lucide-react";
 import { useToast } from "./ToastContext";
 
 export default function NodesPing() {
@@ -84,7 +84,7 @@ export default function NodesPing() {
           <h2 className="title-section text-white italic uppercase tracking-tighter liquid-shadow mb-3">
             JONLI TUGUNLAR & <span className="gradient-text">PING STATUS</span>
           </h2>
-          <p className="text-zinc-400 font-medium text-lg">
+          <p className="text-slate-400 font-medium text-lg">
             Serverlarimizning hozirgi holatini va O'zbekiston bo'yicha tezlik ko'rsatkichlarini tekshiring.
           </p>
         </div>
@@ -92,26 +92,26 @@ export default function NodesPing() {
         {/* Nodes Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {nodes.map((node) => (
-            <div key={node.id} className="neoterra-card group">
+            <div key={node.id} className="neoterra-card group border border-white/10">
               <div>
                 <div className="flex justify-between items-center mb-3">
                   <div className="font-bold text-white text-base flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
                     <span>{node.name}</span>
                   </div>
-                  <div className="font-mono text-primary font-bold text-sm">
-                    {node.ping} <span className="text-xs text-zinc-500 font-normal">{node.label}</span>
+                  <div className="font-mono text-sky-400 font-bold text-sm">
+                    {node.ping} <span className="text-xs text-slate-500 font-normal">{node.label}</span>
                   </div>
                 </div>
 
-                <p className="text-zinc-400 text-xs mb-4">{node.specs}</p>
+                <p className="text-slate-400 text-xs mb-4">{node.specs}</p>
 
-                <div className="flex justify-between items-center text-xs border-t border-white/10 pt-3 text-zinc-400">
+                <div className="flex justify-between items-center text-xs border-t border-white/10 pt-3 text-slate-400">
                   <span>
-                    Holat: <strong className="text-primary font-bold">{node.uptime} Onlayn</strong>
+                    Holat: <strong className="text-emerald-400 font-bold">{node.uptime} Onlayn</strong>
                   </span>
                   <span>
-                    Yuklama: <strong className="text-white font-bold">{node.load}</strong>
+                    Yuklama: <strong className="text-indigo-400 font-bold">{node.load}</strong>
                   </span>
                 </div>
               </div>
@@ -123,7 +123,7 @@ export default function NodesPing() {
           <button
             onClick={handleRefreshPing}
             disabled={isChecking}
-            className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-primary hover:bg-primary/80 text-primary-foreground font-black text-xs uppercase tracking-wider shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5 cursor-pointer disabled:opacity-50"
+            className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-sky-500/25 transition-all hover:-translate-y-0.5 cursor-pointer disabled:opacity-50"
           >
             <RefreshCw className={`w-4 h-4 ${isChecking ? "animate-spin" : ""}`} />
             <span>JONLI PINGNI O'LCHASH</span>

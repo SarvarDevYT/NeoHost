@@ -17,35 +17,33 @@ const config: Config = {
           foreground: "var(--primary-foreground)",
         },
         accent: {
-          DEFAULT: "var(--accent)",
-          cyan: "var(--accent-cyan)",
-          violet: "var(--accent-violet)",
+          cyan: "#38bdf8",
+          blue: "#0ea5e9",
+          indigo: "#6366f1",
+          violet: "#8b5cf6",
+          emerald: "#10b981",
         },
       },
-      fontFamily: {
-        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
-        mono: ["var(--font-mono)", "monospace"],
-      },
       borderRadius: {
+        pill: "9999px",
+        "2xl": "1rem",
+        "3xl": "1.5rem",
         card: "2rem",
         header: "2.5rem",
       },
       animation: {
         float: "float 6s ease-in-out infinite",
-        "pulse-glow": "pulse-glow 3s infinite",
+        "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       },
       keyframes: {
         float: {
           "0%, 100%": { transform: "translateY(0px)" },
           "50%": { transform: "translateY(-12px)" },
         },
-        "pulse-glow": {
-          "0%, 100%": { opacity: "0.25", transform: "scale(1)" },
-          "50%": { opacity: "0.45", transform: "scale(1.08)" },
-        },
       },
     },
   },
   plugins: [],
 };
+
 export default config;

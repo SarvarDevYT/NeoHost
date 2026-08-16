@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Play, RotateCw, Square, Terminal as TermIcon } from "lucide-react";
+import { Play, RotateCw, Square } from "lucide-react";
 import { useToast } from "./ToastContext";
 
 interface LogEntry {
@@ -144,28 +144,28 @@ export default function HeroConsole() {
 
   return (
     <div className="w-full max-w-[1000px] mx-auto mt-12">
-      <div className="bg-[#0e121a]/85 border border-white/10 rounded-[2rem] overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.8)]">
+      <div className="bg-[#0b0e17]/90 border border-white/10 rounded-[2rem] overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.85)]">
         
         {/* Header Bar */}
         <div className="px-6 py-3.5 bg-white/[0.03] border-b border-white/[0.08] flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-2.5 h-2.5 rounded-full bg-red-500" />
             <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />
-            <div className="w-2.5 h-2.5 rounded-full bg-primary" />
+            <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
           </div>
           
-          <div className="font-mono text-xs flex items-center gap-2 text-zinc-400">
+          <div className="font-mono text-xs flex items-center gap-2 text-slate-400">
             <span>⚡ node-01.neohost.uz</span>
-            <span className="text-primary font-bold">[v1.21 PaperSpigot]</span>
+            <span className="text-sky-400 font-bold">[v1.21 PaperSpigot]</span>
           </div>
 
           <div
             className={`px-3 py-1 rounded-full text-[11px] font-black tracking-wider uppercase ${
               status === "ONLINE"
-                ? "bg-primary/15 text-primary"
+                ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30"
                 : status === "RESTARTING"
-                ? "bg-amber-500/15 text-amber-400"
-                : "bg-red-500/15 text-red-400"
+                ? "bg-amber-500/15 text-amber-400 border border-amber-500/30"
+                : "bg-red-500/15 text-red-400 border border-red-500/30"
             }`}
           >
             ● {status}
@@ -178,40 +178,40 @@ export default function HeroConsole() {
           {/* Terminal Logs Area */}
           <div
             ref={terminalBoxRef}
-            className="bg-[#060709] border border-white/[0.06] rounded-2xl p-4 font-mono text-[13px] h-44 overflow-y-auto flex flex-col gap-1 text-left"
+            className="bg-[#05070c] border border-white/[0.06] rounded-2xl p-4 font-mono text-[13px] h-44 overflow-y-auto flex flex-col gap-1 text-left"
           >
             {logs.map((log) => (
               <div key={log.id} className="flex items-baseline gap-2">
-                <span className="text-zinc-500 shrink-0">{log.time}</span>
+                <span className="text-slate-500 shrink-0">{log.time}</span>
                 <span
                   className={`font-bold shrink-0 ${
                     log.type === "SUCCESS"
-                      ? "text-primary"
+                      ? "text-emerald-400"
                       : log.type === "WARN"
-                      ? "text-yellow-400"
+                      ? "text-amber-400"
                       : "text-sky-400"
                   }`}
                 >
                   [{log.type}]
                 </span>
-                <span className="text-zinc-300">{log.message}</span>
+                <span className="text-slate-200">{log.message}</span>
               </div>
             ))}
           </div>
 
           {/* Command Prompt Input */}
-          <form onSubmit={handleCommandSubmit} className="flex items-center gap-2.5 bg-[#060709] border border-primary/30 rounded-2xl px-4 py-2.5">
-            <span className="text-primary font-mono font-bold text-sm">&gt;</span>
+          <form onSubmit={handleCommandSubmit} className="flex items-center gap-2.5 bg-[#05070c] border border-sky-500/30 rounded-2xl px-4 py-2.5">
+            <span className="text-sky-400 font-mono font-bold text-sm">&gt;</span>
             <input
               type="text"
               value={cmdInput}
               onChange={(e) => setCmdInput(e.target.value)}
               placeholder="Buyruq kiriting: /tps, /list, /status, /help, /say ..."
-              className="flex-1 bg-transparent border-none outline-none text-white font-mono text-sm placeholder:text-zinc-600"
+              className="flex-1 bg-transparent border-none outline-none text-white font-mono text-sm placeholder:text-slate-600"
               title="Server buyrug'i"
               aria-label="Server buyrug'i"
             />
-            <button type="submit" className="text-xs font-mono font-bold text-primary hover:text-white px-2 py-1 transition-colors">
+            <button type="submit" className="text-xs font-mono font-bold text-sky-400 hover:text-white px-2 py-1 transition-colors">
               Yuborish ↵
             </button>
           </form>
@@ -221,29 +221,29 @@ export default function HeroConsole() {
             <div className="flex items-center gap-2">
               <button
                 onClick={handleStart}
-                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold bg-white/5 hover:bg-white/10 text-white transition-all cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 transition-all cursor-pointer"
               >
-                <Play className="w-3.5 h-3.5 text-primary" />
+                <Play className="w-3.5 h-3.5" />
                 <span>Start</span>
               </button>
               <button
                 onClick={handleRestart}
-                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 transition-all cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 transition-all cursor-pointer"
               >
                 <RotateCw className="w-3.5 h-3.5" />
                 <span>Restart</span>
               </button>
               <button
                 onClick={handleStop}
-                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold bg-red-500/10 hover:bg-red-500/20 text-red-400 transition-all cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 transition-all cursor-pointer"
               >
                 <Square className="w-3.5 h-3.5" />
                 <span>Stop</span>
               </button>
             </div>
 
-            <div className="text-zinc-500 font-mono text-xs">
-              SFTP: <span className="text-zinc-300">node1.neohost.uz:2022</span>
+            <div className="text-slate-500 font-mono text-xs">
+              SFTP: <span className="text-slate-300">node1.neohost.uz:2022</span>
             </div>
           </div>
 
