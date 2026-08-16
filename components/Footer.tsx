@@ -88,8 +88,8 @@ export default function Footer() {
 
         {/* Bottom Row */}
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-zinc-500 font-medium uppercase tracking-widest">
-          <p>© 2026 NEOHOST & PLAY.NEOTERRA.UZ. Barcha huquqlar himoyalangan.</p>
-          <p>Mojang AB bilan aloqador emas.</p>
+          <p>© 2026 NEOHOST — Pterodactyl Game & Bot Hosting. Barcha huquqlar himoyalangan.</p>
+          <p>NeoTerra Ekotizimi qoshida ishlab chiqilgan.</p>
         </div>
 
       </div>

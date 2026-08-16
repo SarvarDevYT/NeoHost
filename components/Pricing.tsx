@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Check } from "lucide-react";
+import { Check, Rocket, Cpu, HardDrive } from "lucide-react";
 
 interface PricingProps {
   onOpenModal: (plan?: string) => void;
@@ -25,7 +25,7 @@ export default function Pricing({ onOpenModal }: PricingProps) {
       price: "0 so'm",
       period: "/ doimiy bepul",
       featured: false,
-      buttonText: "BEPUL BOSHLASH",
+      buttonText: "BEPUL SERVER OCHISH",
       buttonStyle: "primary",
       features: [
         { strong: "2 GB", text: "Operativ Xotira (RAM)" },
@@ -43,7 +43,7 @@ export default function Pricing({ onOpenModal }: PricingProps) {
       price: "45,000",
       period: "so'm / oyiga",
       featured: false,
-      buttonText: "TANLASH",
+      buttonText: "SERVERNI TANLASH",
       buttonStyle: "neutral",
       features: [
         { strong: "4 GB", text: "DDR4/DDR5 RAM" },
@@ -61,7 +61,7 @@ export default function Pricing({ onOpenModal }: PricingProps) {
       price: "85,000",
       period: "so'm / oyiga",
       featured: true,
-      buttonText: "DARHOL BOSHLASH",
+      buttonText: "SERVERNI ISHGA TUSHIRISH",
       buttonStyle: "primary",
       features: [
         { strong: "8 GB", text: "Yuqori Tezlikdagi RAM" },
@@ -79,7 +79,7 @@ export default function Pricing({ onOpenModal }: PricingProps) {
       price: "160,000",
       period: "so'm / oyiga",
       featured: false,
-      buttonText: "SERVERNI YARATISH",
+      buttonText: "VIP REJANI YARATISH",
       buttonStyle: "neutral",
       features: [
         { strong: "16 GB", text: "Ekstremal RAM" },
@@ -192,8 +192,8 @@ export default function Pricing({ onOpenModal }: PricingProps) {
             
             {/* Left Controls */}
             <div className="lg:col-span-7">
-              <h3 className="text-2xl font-black italic uppercase text-primary mb-2">
-                O'z Serveringizni Yig'ing
+              <h3 className="text-2xl font-black italic uppercase text-primary mb-2 flex items-center gap-2">
+                <Rocket className="w-6 h-6" /> O'z Serveringizni Yig'ing
               </h3>
               <p className="text-zinc-400 text-sm mb-6">
                 Slayderni surib kerakli RAM hajmini belgilang, tizim protsessor va diskni avtomatik hisoblab beradi.
@@ -223,11 +223,15 @@ export default function Pricing({ onOpenModal }: PricingProps) {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="glass-effect p-3.5 rounded-2xl">
-                  <div className="text-[11px] text-zinc-500 uppercase font-black tracking-wider">Protsessor</div>
+                  <div className="text-[11px] text-zinc-500 uppercase font-black tracking-wider flex items-center gap-1.5">
+                    <Cpu className="w-3.5 h-3.5 text-primary" /> Protsessor
+                  </div>
                   <div className="font-mono text-primary font-bold text-base mt-1">{cpu}</div>
                 </div>
                 <div className="glass-effect p-3.5 rounded-2xl">
-                  <div className="text-[11px] text-zinc-500 uppercase font-black tracking-wider">Disk Xotirasi</div>
+                  <div className="text-[11px] text-zinc-500 uppercase font-black tracking-wider flex items-center gap-1.5">
+                    <HardDrive className="w-3.5 h-3.5 text-primary" /> Disk Xotirasi
+                  </div>
                   <div className="font-mono text-white font-bold text-base mt-1">{disk}</div>
                 </div>
               </div>
@@ -251,7 +255,7 @@ export default function Pricing({ onOpenModal }: PricingProps) {
                 onClick={() => onOpenModal(`Custom Server (${ram} GB RAM)`)}
                 className="w-full py-3.5 rounded-full bg-primary hover:bg-primary/80 text-primary-foreground font-black text-xs uppercase tracking-wider shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5 cursor-pointer"
               >
-                USHBU SERVERNI YARATISH
+                HOSTING SERVERINI YARATISH
               </button>
             </div>
 

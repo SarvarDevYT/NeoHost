@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { Globe } from "lucide-react";
+import { Globe, UserCheck } from "lucide-react";
 import { useToast } from "./ToastContext";
 
 interface NavbarProps {
@@ -98,12 +98,13 @@ export default function Navbar({ onOpenModal }: NavbarProps) {
             <span>{lang}</span>
           </button>
 
-          {/* Login / Action Button */}
+          {/* Login / Panel Action Button */}
           <button
             onClick={() => onOpenModal("Neo Free Starter")}
-            className="inline-flex items-center justify-center h-10 px-6 rounded-full bg-primary hover:bg-primary/80 text-primary-foreground font-black text-xs uppercase tracking-wider shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5 cursor-pointer whitespace-nowrap"
+            className="inline-flex items-center justify-center gap-1.5 h-10 px-6 rounded-full bg-primary hover:bg-primary/80 text-primary-foreground font-black text-xs uppercase tracking-wider shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5 cursor-pointer whitespace-nowrap"
           >
-            KIRISH
+            <UserCheck className="w-3.5 h-3.5 stroke-[2.5]" />
+            <span>PANELGA KIRISH</span>
           </button>
         </div>
 
