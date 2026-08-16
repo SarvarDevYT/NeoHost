@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import { Copy, Rocket, Server, Activity, ShieldCheck } from "lucide-react";
 import { useToast } from "./ToastContext";
+import { useLanguage } from "./LanguageContext";
 import HeroConsole from "./HeroConsole";
 
 interface HeroProps {
@@ -12,10 +13,11 @@ interface HeroProps {
 
 export default function Hero({ onOpenModal }: HeroProps) {
   const { showToast } = useToast();
+  const { t } = useLanguage();
 
   const handleCopyPanelUrl = () => {
     navigator.clipboard.writeText("https://panel.neohost.uz").then(() => {
-      showToast("📋 Panel manzili [https://panel.neohost.uz] nusxalandi!");
+      showToast(t.hero.toastCopied);
     }).catch(() => {
       showToast("📋 Panel: https://panel.neohost.uz");
     });
@@ -48,13 +50,13 @@ export default function Hero({ onOpenModal }: HeroProps) {
 
         {/* Big Italic Title */}
         <h1 className="title-hero text-white mb-6 uppercase tracking-tighter leading-none italic liquid-shadow">
-          O'ZBEKISTONNING <br />
-          <span className="gradient-text">ENG ZAMONAVIY</span> <br />
-          GAME HOSTINGI!
+          {t.hero.titlePart1} <br />
+          <span className="gradient-text">{t.hero.titleGradient}</span> <br />
+          {t.hero.titlePart2}
         </h1>
 
         <p className="text-slate-400 max-w-2xl mx-auto font-medium text-lg mb-9 leading-relaxed">
-          NeoTerra ekotizimining rasmiy o'yin va bot hosting platformasi. Minimal ping, professional Pterodactyl paneli va 100% bepul boshlash imkoniyati.
+          {t.hero.desc}
         </p>
 
         {/* Action Buttons Row */}
@@ -67,7 +69,7 @@ export default function Hero({ onOpenModal }: HeroProps) {
           >
             <div className="flex flex-col items-start">
               <span className="text-[10px] text-sky-400 font-bold uppercase tracking-[0.2em] mb-0.5">
-                Panel URL (Nusxalash)
+                {t.hero.panelUrlLabel}
               </span>
               <div className="flex items-center gap-3">
                 <span className="text-2xl font-mono text-white font-bold">
@@ -84,7 +86,7 @@ export default function Hero({ onOpenModal }: HeroProps) {
             className="inline-flex items-center justify-center gap-3 py-5 px-10 bg-white text-slate-950 hover:bg-slate-100 font-black italic text-xl rounded-[2rem] shadow-[0_15px_35px_rgba(255,255,255,0.15)] transition-transform hover:scale-105 cursor-pointer whitespace-nowrap"
           >
             <Rocket className="w-6 h-6 text-sky-500 stroke-[2.5]" />
-            <span>BEPUL SERVER OCHISH</span>
+            <span>{t.hero.ctaButton}</span>
           </button>
 
         </div>
@@ -95,19 +97,19 @@ export default function Hero({ onOpenModal }: HeroProps) {
             <span className="text-2xl font-bold text-emerald-400 flex items-center gap-1.5">
               <ShieldCheck className="w-5 h-5" /> 99.98%
             </span>
-            <span className="text-[10px] text-white/50 uppercase tracking-[0.2em] font-bold">Uptime Kafolati</span>
+            <span className="text-[10px] text-white/50 uppercase tracking-[0.2em] font-bold">{t.hero.uptime}</span>
           </div>
           <div className="glass-effect px-6 py-4 rounded-[2rem] flex flex-col items-center min-w-[160px] border border-white/10">
             <span className="text-2xl font-bold text-sky-400 flex items-center gap-1.5">
               <Activity className="w-5 h-5" /> &lt;15ms
             </span>
-            <span className="text-[10px] text-white/50 uppercase tracking-[0.2em] font-bold">Toshkent Ping</span>
+            <span className="text-[10px] text-white/50 uppercase tracking-[0.2em] font-bold">{t.hero.ping}</span>
           </div>
           <div className="glass-effect px-6 py-4 rounded-[2rem] flex flex-col items-center min-w-[160px] border border-white/10">
             <span className="text-2xl font-bold text-indigo-400 uppercase flex items-center gap-1.5">
               <Server className="w-5 h-5" /> ONLINE
             </span>
-            <span className="text-[10px] text-white/50 uppercase tracking-[0.2em] font-bold">Barcha Nodelar Faol</span>
+            <span className="text-[10px] text-white/50 uppercase tracking-[0.2em] font-bold">{t.hero.status}</span>
           </div>
         </div>
 

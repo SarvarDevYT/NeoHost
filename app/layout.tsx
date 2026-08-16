@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ToastProvider } from "@/components/ToastContext";
+import { LanguageProvider } from "@/components/LanguageContext";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://neohost.uz"),
@@ -27,7 +28,9 @@ export default function RootLayout({
   return (
     <html lang="uz" className="scroll-smooth">
       <body className="antialiased bg-background text-foreground min-h-screen selection:bg-primary/30 selection:text-white">
-        <ToastProvider>{children}</ToastProvider>
+        <LanguageProvider>
+          <ToastProvider>{children}</ToastProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

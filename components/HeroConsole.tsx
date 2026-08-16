@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Play, RotateCw, Square } from "lucide-react";
 import { useToast } from "./ToastContext";
+import { useLanguage } from "./LanguageContext";
 
 interface LogEntry {
   id: string;
@@ -13,6 +14,7 @@ interface LogEntry {
 
 export default function HeroConsole() {
   const { showToast } = useToast();
+  const { t } = useLanguage();
   const [logs, setLogs] = useState<LogEntry[]>([
     { id: "1", time: "[10:15:02]", type: "INFO", message: "Pterodactyl Daemon (Wings) v1.11.8 connected securely." },
     { id: "2", time: "[10:15:04]", type: "INFO", message: "PaperSpigot 1.21 initialized with Java 21 OpenJDK." },
@@ -53,28 +55,28 @@ export default function HeroConsole() {
         id: (Date.now() + 1).toString(),
         time,
         type: "INFO",
-        message: "Mavjud buyruqlar: /tps, /list, /status, /say <matn>, /restart, /stop, /clear",
+        message: t.console.helpResponse,
       });
     } else if (lower === "/tps") {
       newLogs.push({
         id: (Date.now() + 1).toString(),
         time,
         type: "SUCCESS",
-        message: "TPS: 20.0, 20.0, 20.0 (Xotira: 3.4GB / 8GB, Barqaror: 100%)",
+        message: t.console.tpsResponse,
       });
     } else if (lower === "/list") {
       newLogs.push({
         id: (Date.now() + 1).toString(),
         time,
         type: "INFO",
-        message: "Onlayn o'yinchilar (3/100): Iskandar_Neo, SarvarDev, NeoAdmin",
+        message: t.console.listResponse,
       });
     } else if (lower === "/status") {
       newLogs.push({
         id: (Date.now() + 1).toString(),
         time,
         type: "SUCCESS",
-        message: "Node: node-01.neohost.uz (Toshkent), CPU: 14%, Anti-DDoS: Faol",
+        message: t.console.statusResponse,
       });
     } else if (lower.startsWith("/say ")) {
       const msg = cmd.substring(5);
@@ -84,7 +86,7 @@ export default function HeroConsole() {
         type: "INFO",
         message: `[Broadcast] Server Admin: ${msg}`,
       });
-      showToast(`📢 Xabar yuborildi: "${msg}"`);
+      showToast(`📢 ${msg}`);
     } else if (lower === "/clear" || lower === "clear") {
       setLogs([]);
       setCmdInput("");
@@ -94,7 +96,7 @@ export default function HeroConsole() {
         id: (Date.now() + 1).toString(),
         time,
         type: "WARN",
-        message: `Noma'lum buyruq: "${cmd}". Yordam uchun /help deb yozing.`,
+        message: t.console.unknownCommand.replace("{cmd}", cmd),
       });
     }
 
@@ -107,28 +109,28 @@ export default function HeroConsole() {
     const time = getTimeString();
     setLogs((prev) => [
       ...prev,
-      { id: Date.now().toString(), time, type: "INFO", message: "Server ishga tushirilmoqda..." },
-      { id: (Date.now() + 1).toString(), time, type: "SUCCESS", message: "Server muvaffaqiyatli yoqildi! (0.0.0.0:25565)" },
+      { id: Date.now().toString(), time, type: "INFO", message: "Starting server daemon..." },
+      { id: (Date.now() + 1).toString(), time, type: "SUCCESS", message: "Server listening on 0.0.0.0:25565" },
     ]);
-    showToast("▶ Server yoqildi!");
+    showToast(t.console.toastStart);
   };
 
   const handleRestart = () => {
     setStatus("RESTARTING");
-    showToast("🔄 Server qayta ishga tushirilmoqda...");
+    showToast(t.console.toastRestart);
     const time = getTimeString();
     setLogs((prev) => [
       ...prev,
-      { id: Date.now().toString(), time, type: "WARN", message: "Server qayta ishga tushirilmoqda (Restart)..." },
+      { id: Date.now().toString(), time, type: "WARN", message: "Server restarting (Restart)..." },
     ]);
     setTimeout(() => {
       setStatus("ONLINE");
-      const t = getTimeString();
+      const tTime = getTimeString();
       setLogs((prev) => [
         ...prev,
-        { id: Date.now().toString(), time: t, type: "SUCCESS", message: "Server qayta ishga tushdi (20.0 TPS)!" },
+        { id: Date.now().toString(), time: tTime, type: "SUCCESS", message: "Server restarted (20.0 TPS)!" },
       ]);
-      showToast("✅ Server qayta ishga tushdi!");
+      showToast(t.console.toastRestarted);
     }, 1500);
   };
 
@@ -137,9 +139,9 @@ export default function HeroConsole() {
     const time = getTimeString();
     setLogs((prev) => [
       ...prev,
-      { id: Date.now().toString(), time, type: "WARN", message: "Server to'xtatildi (Server stopped)." },
+      { id: Date.now().toString(), time, type: "WARN", message: "Server stopped." },
     ]);
-    showToast("⏹ Server to'xtatildi.");
+    showToast(t.console.toastStop);
   };
 
   return (
@@ -168,7 +170,7 @@ export default function HeroConsole() {
                 : "bg-red-500/15 text-red-400 border border-red-500/30"
             }`}
           >
-            ● {status}
+            ● {status === "ONLINE" ? t.console.statusOnline : status === "RESTARTING" ? t.console.statusRestarting : t.console.statusOffline}
           </div>
         </div>
 
@@ -206,13 +208,13 @@ export default function HeroConsole() {
               type="text"
               value={cmdInput}
               onChange={(e) => setCmdInput(e.target.value)}
-              placeholder="Buyruq kiriting: /tps, /list, /status, /help, /say ..."
+              placeholder={t.console.placeholder}
               className="flex-1 bg-transparent border-none outline-none text-white font-mono text-sm placeholder:text-slate-600"
-              title="Server buyrug'i"
-              aria-label="Server buyrug'i"
+              title="Server command"
+              aria-label="Server command"
             />
             <button type="submit" className="text-xs font-mono font-bold text-sky-400 hover:text-white px-2 py-1 transition-colors">
-              Yuborish ↵
+              {t.console.send}
             </button>
           </form>
 
@@ -224,21 +226,21 @@ export default function HeroConsole() {
                 className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 transition-all cursor-pointer"
               >
                 <Play className="w-3.5 h-3.5" />
-                <span>Start</span>
+                <span>{t.console.start}</span>
               </button>
               <button
                 onClick={handleRestart}
                 className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 transition-all cursor-pointer"
               >
                 <RotateCw className="w-3.5 h-3.5" />
-                <span>Restart</span>
+                <span>{t.console.restart}</span>
               </button>
               <button
                 onClick={handleStop}
                 className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 transition-all cursor-pointer"
               >
                 <Square className="w-3.5 h-3.5" />
-                <span>Stop</span>
+                <span>{t.console.stop}</span>
               </button>
             </div>
 

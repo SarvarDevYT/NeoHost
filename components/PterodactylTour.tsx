@@ -3,8 +3,14 @@
 import React from "react";
 import Image from "next/image";
 import { Terminal, FolderGit2, Database, ShieldAlert } from "lucide-react";
+import { useLanguage } from "./LanguageContext";
 
 export default function PterodactylTour() {
+  const { t } = useLanguage();
+  const icons = [Terminal, FolderGit2, ShieldAlert, Database];
+  const borderColors = ["border-sky-400", "border-indigo-400", "border-emerald-400", "border-violet-400"];
+  const iconColors = ["text-sky-400", "text-indigo-400", "text-emerald-400", "text-violet-400"];
+
   return (
     <section className="py-24" id="pterodactyl">
       <div className="container mx-auto px-6">
@@ -12,10 +18,10 @@ export default function PterodactylTour() {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
           <h2 className="title-section text-white italic uppercase tracking-tighter liquid-shadow mb-3">
-            ZAMONAVIY <span className="gradient-text">PTERODACTYL PANEL</span>
+            {t.pterodactyl.title} <span className="gradient-text">{t.pterodactyl.titleGradient}</span>
           </h2>
           <p className="text-slate-400 font-medium text-lg">
-            Har qanday o'yin serverini professional tarzda boshqaring: konsol, fayllar, backup va plaginlar bir joyda.
+            {t.pterodactyl.subtitle}
           </p>
         </div>
 
@@ -23,43 +29,19 @@ export default function PterodactylTour() {
           
           {/* Features Column */}
           <div className="lg:col-span-5 flex flex-col gap-4">
-            
-            <div className="glass-effect p-5 rounded-2xl border-l-4 border-sky-400">
-              <h4 className="text-white font-bold text-base mb-1 flex items-center gap-2">
-                <Terminal className="w-4 h-4 text-sky-400" /> Jonli Web Konsol & Tezkor Boshqaruv
-              </h4>
-              <p className="text-slate-400 text-xs leading-relaxed">
-                Serveringiz loglarini real vaqtda kuzating, buyruqlarni yuboring va bir zumda qayta ishga tushiring.
-              </p>
-            </div>
-
-            <div className="glass-effect p-5 rounded-2xl border-l-4 border-indigo-400">
-              <h4 className="text-white font-bold text-base mb-1 flex items-center gap-2">
-                <FolderGit2 className="w-4 h-4 text-indigo-400" /> Web Fayl Menejeri & SFTP
-              </h4>
-              <p className="text-slate-400 text-xs leading-relaxed">
-                Brauzer ichida fayllarni to'g'ridan-to'g'ri tahrirlang yoki FileZilla / WinSCP orqali cheksiz tezlikda yuklang.
-              </p>
-            </div>
-
-            <div className="glass-effect p-5 rounded-2xl border-l-4 border-emerald-400">
-              <h4 className="text-white font-bold text-base mb-1 flex items-center gap-2">
-                <ShieldAlert className="w-4 h-4 text-emerald-400" /> 1-Klikda Avtomatik Zaxira (Backup)
-              </h4>
-              <p className="text-slate-400 text-xs leading-relaxed">
-                Dunyolaringiz va sozlamalaringizni bir tugma bilan saqlang va soniyada qayta tiklang.
-              </p>
-            </div>
-
-            <div className="glass-effect p-5 rounded-2xl border-l-4 border-violet-400">
-              <h4 className="text-white font-bold text-base mb-1 flex items-center gap-2">
-                <Database className="w-4 h-4 text-violet-400" /> MySQL / MariaDB Ma'lumotlar Bazasi
-              </h4>
-              <p className="text-slate-400 text-xs leading-relaxed">
-                AuthMe, LuckPerms, CoreProtect kabi plaginlar uchun bepul MySQL bazani bir bosishda faollashtiring.
-              </p>
-            </div>
-
+            {t.pterodactyl.features.map((feat, idx) => {
+              const Icon = icons[idx];
+              return (
+                <div key={idx} className={`glass-effect p-5 rounded-2xl border-l-4 ${borderColors[idx]}`}>
+                  <h4 className="text-white font-bold text-base mb-1 flex items-center gap-2">
+                    <Icon className={`w-4 h-4 ${iconColors[idx]}`} /> {feat.title}
+                  </h4>
+                  <p className="text-slate-400 text-xs leading-relaxed">
+                    {feat.desc}
+                  </p>
+                </div>
+              );
+            })}
           </div>
 
           {/* Screenshot Preview Column */}

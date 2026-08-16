@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
 import { useToast } from "./ToastContext";
+import { useLanguage } from "./LanguageContext";
 
 interface CreateServerModalProps {
   isOpen: boolean;
@@ -16,20 +17,22 @@ export default function CreateServerModal({
   onClose,
 }: CreateServerModalProps) {
   const { showToast } = useToast();
+  const { t } = useLanguage();
   const [step, setStep] = useState<"form" | "loading" | "success">("form");
   const [gameType, setGameType] = useState<"minecraft-paper" | "minecraft-forge" | "discord-bot">("minecraft-paper");
   const [serverName, setServerName] = useState("NeoTerra-Craft");
   const [subdomain, setSubdomain] = useState("myserver");
   const [sanitizedSubdomain, setSanitizedSubdomain] = useState("myserver");
   const [progress, setProgress] = useState(25);
-  const [progressText, setProgressText] = useState("1. Pterodactyl node bilan xavfsiz ulanish o'rnatilmoqda...");
+  const [progressText, setProgressText] = useState(t.modal.step2Prog1);
 
   useEffect(() => {
     if (isOpen) {
       setStep("form");
       setProgress(25);
+      setProgressText(t.modal.step2Prog1);
     }
-  }, [isOpen]);
+  }, [isOpen, t]);
 
   if (!isOpen) return null;
 
@@ -56,33 +59,33 @@ export default function CreateServerModal({
     const cleanName = serverName.trim();
 
     if (cleanSub.length < 3) {
-      showToast("⚠️ Subdomen kamida 3 ta belgidan iborat bo'lishi kerak!");
+      showToast(t.modal.warnSubdomain);
       return;
     }
 
     if (cleanName.length < 3) {
-      showToast("⚠️ Server nomi kamida 3 ta belgidan iborat bo'lishi kerak!");
+      showToast(t.modal.warnName);
       return;
     }
 
     setStep("loading");
     setProgress(25);
-    setProgressText("1. Pterodactyl node bilan xavfsiz ulanish o'rnatilmoqda...");
+    setProgressText(t.modal.step2Prog1);
 
     setTimeout(() => {
       setProgress(55);
-      setProgressText("2. Docker konteyneri va izolyatsiya qilingan kvota ajratilmoqda...");
+      setProgressText(t.modal.step2Prog2);
     }, 900);
 
     setTimeout(() => {
       setProgress(85);
-      setProgressText("3. Server fayllari va Java 21 muhiti xavfsiz o'rnatilmoqda...");
+      setProgressText(t.modal.step2Prog3);
     }, 1800);
 
     setTimeout(() => {
       setProgress(100);
       setStep("success");
-      showToast("🎉 Bepul serveringiz xavfsiz ishga tushirildi!");
+      showToast(t.modal.toastSuccess);
     }, 2700);
   };
 
@@ -107,17 +110,17 @@ export default function CreateServerModal({
                 {planName}
               </div>
               <h3 className="text-2xl font-black italic uppercase text-white">
-                Yangi Serverni Sozlash
+                {t.modal.step1Title}
               </h3>
               <p className="text-slate-400 text-xs mt-1">
-                O'yin turi va nomini kiriting, tizim bir necha soniyada Pterodactyl konteynerini yaratadi.
+                {t.modal.step1Desc}
               </p>
             </div>
 
             {/* Game Type Selection */}
             <div className="mb-5">
               <label className="block text-xs font-bold text-white mb-2">
-                O'yin yoki Dastur Turi:
+                {t.modal.gameTypeLabel}
               </label>
               <div className="grid grid-cols-3 gap-2.5">
                 {[
@@ -144,7 +147,7 @@ export default function CreateServerModal({
             {/* Server Name */}
             <div className="mb-5">
               <label htmlFor="modal-srv-name" className="block text-xs font-bold text-white mb-2">
-                Server Nomi:
+                {t.modal.serverNameLabel}
               </label>
               <input
                 id="modal-srv-name"
@@ -152,7 +155,7 @@ export default function CreateServerModal({
                 maxLength={50}
                 value={serverName}
                 onChange={(e) => handleServerNameChange(e.target.value)}
-                placeholder="Masalan: NeoTerra-Survival"
+                placeholder={t.modal.serverNamePlaceholder}
                 className="w-full px-4 py-3 rounded-2xl glass-effect border border-white/10 text-white text-sm outline-none focus:border-sky-400 transition-colors"
                 required
               />
@@ -161,7 +164,7 @@ export default function CreateServerModal({
             {/* Subdomain Input */}
             <div className="mb-6">
               <label htmlFor="modal-subdomain" className="block text-xs font-bold text-white mb-2">
-                Subdomen (Faqat a-z, 0-9 va tire):
+                {t.modal.subdomainLabel}
               </label>
               <div className="flex items-center gap-2">
                 <input
@@ -170,7 +173,7 @@ export default function CreateServerModal({
                   maxLength={30}
                   value={subdomain}
                   onChange={(e) => handleSubdomainChange(e.target.value)}
-                  placeholder="myserver"
+                  placeholder={t.modal.subdomainPlaceholder}
                   className="flex-1 px-4 py-3 rounded-2xl glass-effect border border-white/10 text-white text-sm outline-none focus:border-sky-400 transition-colors font-mono"
                   required
                 />
@@ -185,7 +188,7 @@ export default function CreateServerModal({
               type="submit"
               className="w-full py-4 rounded-full bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-black text-sm uppercase tracking-wider shadow-lg shadow-sky-500/25 transition-all hover:-translate-y-0.5 cursor-pointer"
             >
-              🚀 SERVERNI ISHGA TUSHIRISH
+              {t.modal.btnCreate}
             </button>
           </form>
         )}
@@ -195,7 +198,7 @@ export default function CreateServerModal({
           <div className="py-8 text-center">
             <div className="text-5xl mb-4 animate-float">⚙️</div>
             <h4 className="text-xl font-black italic uppercase text-white mb-2">
-              Pterodactyl Konteyneri Yaratilmoqda...
+              {t.modal.step2Title}
             </h4>
             <p className="text-sky-400 font-mono text-xs min-h-[24px] my-3">
               {progressText}
@@ -214,24 +217,24 @@ export default function CreateServerModal({
           <div className="py-6 text-center">
             <div className="text-6xl mb-3">🎉</div>
             <h3 className="text-2xl font-black italic uppercase text-sky-400 mb-2">
-              Server Muvaffaqiyatli Yaratildi!
+              {t.modal.step3Title}
             </h3>
             <p className="text-slate-400 text-xs mb-6">
-              Sizning serveringiz Pterodactyl panelida faollashtirildi va xavfsiz izolyatsiyada ishga tushirildi.
+              {t.modal.step3Desc}
             </p>
 
             <div className="glass-effect p-4 rounded-2xl text-left font-mono text-xs mb-6 space-y-1.5 border border-white/10">
               <div className="flex justify-between">
-                <span className="text-slate-400">Server IP:</span>
+                <span className="text-slate-400">{t.modal.serverIpLabel}</span>
                 <span className="text-sky-400 font-bold">{sanitizedSubdomain || "server"}.neohost.uz:25565</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-400">Panel URL:</span>
+                <span className="text-slate-400">{t.modal.panelUrlLabel}</span>
                 <span className="text-white font-bold">https://panel.neohost.uz</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-400">Holat:</span>
-                <span className="text-emerald-400 font-bold">24/7 Anti-DDoS Himoyalangan</span>
+                <span className="text-slate-400">{t.modal.statusLabel}</span>
+                <span className="text-emerald-400 font-bold">{t.modal.statusProtected}</span>
               </div>
             </div>
 
@@ -239,7 +242,7 @@ export default function CreateServerModal({
               onClick={onClose}
               className="w-full py-3.5 rounded-full bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-sky-500/25 transition-all cursor-pointer"
             >
-              🎮 PTERODACTYL PANELIGA O'TISH
+              {t.modal.btnGoPanel}
             </button>
           </div>
         )}

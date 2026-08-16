@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { Globe, UserCheck } from "lucide-react";
 import { useToast } from "./ToastContext";
+import { useLanguage } from "./LanguageContext";
+import { Language } from "@/lib/translations";
 
 interface NavbarProps {
   onOpenModal: (plan?: string) => void;
@@ -11,16 +13,16 @@ interface NavbarProps {
 
 export default function Navbar({ onOpenModal }: NavbarProps) {
   const { showToast } = useToast();
-  const [lang, setLang] = useState<"UZ" | "RU" | "EN">("UZ");
+  const { language, setLanguage, t } = useLanguage();
   const [activeSection, setActiveSection] = useState<string>("hero");
 
   const navItems = [
-    { id: "hero", label: "🏠 ASOSIY", href: "#hero" },
-    { id: "pricing", label: "⚡ TARIFLAR", href: "#pricing" },
-    { id: "pterodactyl", label: "🚀 PTERODACTYL", href: "#pterodactyl" },
-    { id: "features", label: "💎 AFZALLIKLAR", href: "#features" },
-    { id: "nodes", label: "📊 STATUS", href: "#nodes" },
-    { id: "faq", label: "❓ FAQ", href: "#faq" },
+    { id: "hero", label: t.nav.home, href: "#hero" },
+    { id: "pricing", label: t.nav.pricing, href: "#pricing" },
+    { id: "pterodactyl", label: t.nav.pterodactyl, href: "#pterodactyl" },
+    { id: "features", label: t.nav.features, href: "#features" },
+    { id: "nodes", label: t.nav.nodes, href: "#nodes" },
+    { id: "faq", label: t.nav.faq, href: "#faq" },
   ];
 
   // Scroll-spy: Detect current active section based on scroll position
@@ -45,9 +47,9 @@ export default function Navbar({ onOpenModal }: NavbarProps) {
     handleScroll(); // Initial check
 
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [navItems]);
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string, href: string) => {
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
     setActiveSection(id);
     const element = document.getElementById(id);
@@ -61,8 +63,8 @@ export default function Navbar({ onOpenModal }: NavbarProps) {
   };
 
   const toggleLanguage = () => {
-    const nextLang = lang === "UZ" ? "RU" : lang === "RU" ? "EN" : "UZ";
-    setLang(nextLang);
+    const nextLang: Language = language === "UZ" ? "RU" : language === "RU" ? "EN" : "UZ";
+    setLanguage(nextLang);
     showToast(
       nextLang === "UZ"
         ? "Til o'zgartirildi: O'zbekcha"
@@ -79,7 +81,7 @@ export default function Navbar({ onOpenModal }: NavbarProps) {
         {/* Brand Logo */}
         <a
           href="#hero"
-          onClick={(e) => handleNavClick(e, "hero", "#hero")}
+          onClick={(e) => handleNavClick(e, "hero")}
           className="flex items-center gap-3 group transition-transform hover:scale-105"
         >
           <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.15)]">
@@ -104,7 +106,7 @@ export default function Navbar({ onOpenModal }: NavbarProps) {
               <a
                 key={item.id}
                 href={item.href}
-                onClick={(e) => handleNavClick(e, item.id, item.href)}
+                onClick={(e) => handleNavClick(e, item.id)}
                 className={`px-4 py-2 rounded-full text-xs font-black tracking-wider uppercase transition-all duration-200 cursor-pointer ${
                   isActive
                     ? "bg-white/10 text-white shadow-lg shadow-white/5 border border-white/10"
@@ -123,11 +125,11 @@ export default function Navbar({ onOpenModal }: NavbarProps) {
           <button
             onClick={toggleLanguage}
             className="inline-flex items-center gap-1.5 h-10 px-3.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white text-xs font-black transition-all cursor-pointer"
-            title="Tilni almashtirish"
-            aria-label="Tilni almashtirish"
+            title="Tilni almashtirish / Сменить язык / Change Language"
+            aria-label="Language switch"
           >
             <Globe className="w-3.5 h-3.5 text-sky-400" />
-            <span>{lang}</span>
+            <span>{language}</span>
           </button>
 
           {/* Login / Panel Action Button */}
@@ -136,7 +138,7 @@ export default function Navbar({ onOpenModal }: NavbarProps) {
             className="inline-flex items-center justify-center gap-1.5 h-10 px-6 rounded-full bg-white hover:bg-white/90 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg transition-all hover:-translate-y-0.5 cursor-pointer whitespace-nowrap"
           >
             <UserCheck className="w-3.5 h-3.5 stroke-[2.5]" />
-            <span>PANELGA KIRISH</span>
+            <span>{t.nav.login}</span>
           </button>
         </div>
 

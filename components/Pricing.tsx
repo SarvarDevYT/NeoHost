@@ -2,92 +2,71 @@
 
 import React, { useState } from "react";
 import { Check, Rocket, Cpu, HardDrive } from "lucide-react";
+import { useLanguage } from "./LanguageContext";
 
 interface PricingProps {
   onOpenModal: (plan?: string) => void;
 }
 
 export default function Pricing({ onOpenModal }: PricingProps) {
+  const { t, language } = useLanguage();
   const [filter, setFilter] = useState<"all" | "free" | "minecraft" | "bots">("all");
   const [ram, setRam] = useState<number>(4);
 
   // Dynamic calculations based on RAM
   const cpu = ram <= 2 ? "1 vCPU Core" : ram <= 4 ? "2 vCPU Core" : ram <= 8 ? "4 vCPU Core" : "6 vCPU Core";
   const disk = `${Math.min(ram * 15, 200)} GB NVMe SSD`;
-  const price = ram <= 3 ? 0 : ram * 12000;
+  const priceNumber = ram <= 3 ? 0 : ram * 12000;
+  const currency = language === "EN" ? "UZS" : "so'm";
 
   const plans = [
     {
       id: "free",
-      name: "NEO FREE",
+      name: t.pricing.plans.free.name,
       category: "free",
-      desc: "Do'stlar bilan o'ynash va sinab ko'rish uchun 100% bepul starter.",
-      price: "0 so'm",
-      period: "/ doimiy bepul",
+      desc: t.pricing.plans.free.desc,
+      price: t.pricing.plans.free.price,
+      period: t.pricing.plans.free.period,
       featured: false,
-      buttonText: "BEPUL SERVER OCHISH",
+      buttonText: t.pricing.plans.free.btn,
       buttonStyle: "primary",
-      features: [
-        { strong: "2 GB", text: "Operativ Xotira (RAM)" },
-        { strong: "1 vCPU", text: "AMD EPYC Core" },
-        { strong: "10 GB", text: "NVMe SSD Xotira" },
-        { strong: "Pterodactyl", text: "Web Boshqaruv" },
-        { strong: "1 ta Zaxira", text: "(Auto-Backup)" },
-      ],
+      features: t.pricing.plans.free.features,
     },
     {
       id: "starter",
-      name: "NEO STARTER",
+      name: t.pricing.plans.starter.name,
       category: "minecraft",
-      desc: "O'rta o'lchamdagi Minecraft va bot loyihalari uchun qulay reja.",
-      price: "45,000",
-      period: "so'm / oyiga",
+      desc: t.pricing.plans.starter.desc,
+      price: t.pricing.plans.starter.price,
+      period: t.pricing.plans.starter.period,
       featured: false,
-      buttonText: "SERVERNI TANLASH",
+      buttonText: t.pricing.plans.starter.btn,
       buttonStyle: "neutral",
-      features: [
-        { strong: "4 GB", text: "DDR4/DDR5 RAM" },
-        { strong: "2 vCPU", text: "3.8GHz+ Turbo" },
-        { strong: "30 GB", text: "NVMe SSD" },
-        { strong: "Anti-DDoS", text: "Game Shield" },
-        { strong: "1x MySQL", text: "Database" },
-      ],
+      features: t.pricing.plans.starter.features,
     },
     {
       id: "pro",
-      name: "NEO PRO GAMER",
+      name: t.pricing.plans.pro.name,
       category: "minecraft",
-      desc: "Ko'p sonli plaginlar va 50+ o'yinchili faol serverlar uchun.",
-      price: "85,000",
-      period: "so'm / oyiga",
+      desc: t.pricing.plans.pro.desc,
+      price: t.pricing.plans.pro.price,
+      period: t.pricing.plans.pro.period,
       featured: true,
-      buttonText: "SERVERNI ISHGA TUSHIRISH",
+      buttonText: t.pricing.plans.pro.btn,
       buttonStyle: "primary",
-      features: [
-        { strong: "8 GB", text: "Yuqori Tezlikdagi RAM" },
-        { strong: "4 vCPU", text: "Dedicated Prioritet" },
-        { strong: "60 GB", text: "Ultra NVMe Disk" },
-        { strong: "3x MySQL", text: "+ Cheksiz Portlar" },
-        { strong: "5 ta", text: "Avtomatik Zaxira" },
-      ],
+      features: t.pricing.plans.pro.features,
     },
     {
       id: "monster",
-      name: "NEO MONSTER",
+      name: t.pricing.plans.monster.name,
       category: "bots",
-      desc: "Katta mini-o'yinlar, Bungee klasterlari va og'ir botlar uchun.",
-      price: "160,000",
-      period: "so'm / oyiga",
+      desc: t.pricing.plans.monster.desc,
+      price: t.pricing.plans.monster.price,
+      period: t.pricing.plans.monster.period,
       featured: false,
-      buttonText: "VIP REJANI YARATISH",
+      buttonText: t.pricing.plans.monster.btn,
       buttonStyle: "neutral",
-      features: [
-        { strong: "16 GB", text: "Ekstremal RAM" },
-        { strong: "6 vCPU", text: "Maksimal Quvvat" },
-        { strong: "120 GB", text: "NVMe SSD" },
-        { strong: "24/7", text: "Shaxsiy VIP Admin Yordami" },
-        { strong: "Cheksiz", text: "MySQL va Zaxiralar" },
-      ],
+      features: t.pricing.plans.monster.features,
     },
   ];
 
@@ -100,20 +79,20 @@ export default function Pricing({ onOpenModal }: PricingProps) {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
           <h2 className="title-section text-white italic uppercase tracking-tighter liquid-shadow mb-3">
-            XUSH KELIBSIZ! <span className="gradient-text">TARIFLAR VA REJALAR</span>
+            {t.pricing.title} <span className="gradient-text">{t.pricing.titleGradient}</span>
           </h2>
           <p className="text-slate-400 font-medium text-lg">
-            O'zingizga mos tarifni tanlang yoki bepul starter rejadan boshlab serveringizni rivojlantiring.
+            {t.pricing.subtitle}
           </p>
         </div>
 
         {/* Filter Pills */}
         <div className="flex justify-center items-center gap-2 mb-12 flex-wrap">
           {[
-            { id: "all", label: "⚡ Barcha Tariflar" },
-            { id: "free", label: "🎮 Bepul (Free)" },
-            { id: "minecraft", label: "⚡ Minecraft" },
-            { id: "bots", label: "🤖 Botlar & Dasturlar" },
+            { id: "all", label: t.pricing.filters.all },
+            { id: "free", label: t.pricing.filters.free },
+            { id: "minecraft", label: t.pricing.filters.minecraft },
+            { id: "bots", label: t.pricing.filters.bots },
           ].map((item) => (
             <button
               key={item.id}
@@ -145,7 +124,7 @@ export default function Pricing({ onOpenModal }: PricingProps) {
                   </h3>
                   {plan.featured && (
                     <span className="px-2.5 py-0.5 rounded-full bg-gradient-to-r from-sky-400 to-indigo-500 text-slate-950 text-[10px] font-black tracking-wider uppercase">
-                      OMMABOP
+                      {t.pricing.popularBadge}
                     </span>
                   )}
                 </div>
@@ -193,16 +172,16 @@ export default function Pricing({ onOpenModal }: PricingProps) {
             {/* Left Controls */}
             <div className="lg:col-span-7">
               <h3 className="text-2xl font-black italic uppercase text-sky-400 mb-2 flex items-center gap-2">
-                <Rocket className="w-6 h-6" /> O'z Serveringizni Yig'ing
+                <Rocket className="w-6 h-6" /> {t.pricing.calculator.title}
               </h3>
               <p className="text-slate-400 text-sm mb-6">
-                Slayderni surib kerakli RAM hajmini belgilang, tizim protsessor va diskni avtomatik hisoblab beradi.
+                {t.pricing.calculator.desc}
               </p>
 
               <div className="mb-6">
                 <div className="flex justify-between items-center mb-2.5">
                   <label htmlFor="ram-range" className="font-bold text-sm text-white">
-                    Operativ Xotira (RAM):
+                    {t.pricing.calculator.ramLabel}
                   </label>
                   <span className="px-3 py-1 rounded-full bg-sky-500/15 text-sky-400 text-xs font-mono font-bold border border-sky-500/30">
                     {ram} GB DDR4/DDR5
@@ -216,21 +195,21 @@ export default function Pricing({ onOpenModal }: PricingProps) {
                   value={ram}
                   onChange={(e) => setRam(Number(e.target.value))}
                   className="custom-range-slider"
-                  aria-label="RAM hajmini tanlash"
-                  title="RAM hajmini tanlash"
+                  aria-label="RAM selector"
+                  title="RAM selector"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="glass-effect p-3.5 rounded-2xl border border-white/10">
                   <div className="text-[11px] text-slate-500 uppercase font-black tracking-wider flex items-center gap-1.5">
-                    <Cpu className="w-3.5 h-3.5 text-sky-400" /> Protsessor
+                    <Cpu className="w-3.5 h-3.5 text-sky-400" /> {t.pricing.calculator.cpuLabel}
                   </div>
                   <div className="font-mono text-sky-400 font-bold text-base mt-1">{cpu}</div>
                 </div>
                 <div className="glass-effect p-3.5 rounded-2xl border border-white/10">
                   <div className="text-[11px] text-slate-500 uppercase font-black tracking-wider flex items-center gap-1.5">
-                    <HardDrive className="w-3.5 h-3.5 text-indigo-400" /> Disk Xotirasi
+                    <HardDrive className="w-3.5 h-3.5 text-indigo-400" /> {t.pricing.calculator.diskLabel}
                   </div>
                   <div className="font-mono text-white font-bold text-base mt-1">{disk}</div>
                 </div>
@@ -239,23 +218,23 @@ export default function Pricing({ onOpenModal }: PricingProps) {
 
             {/* Right Summary Box */}
             <div className="lg:col-span-5 glass-effect p-8 rounded-[2rem] text-center flex flex-col justify-center border border-white/10">
-              <div className="text-xs text-slate-400 uppercase font-black tracking-widest">Taxminiy Narx:</div>
+              <div className="text-xs text-slate-400 uppercase font-black tracking-widest">{t.pricing.calculator.priceLabel}</div>
               <div className="text-4xl font-black my-3 text-white liquid-shadow">
-                {price === 0 ? (
-                  <span className="text-emerald-400">0 so'm</span>
+                {priceNumber === 0 ? (
+                  <span className="text-emerald-400">0 {currency}</span>
                 ) : (
-                  <span>{price.toLocaleString("uz-UZ")} so'm</span>
+                  <span>{priceNumber.toLocaleString("uz-UZ")} {currency}</span>
                 )}
-                <span className="text-xs text-slate-500 font-normal ml-1">/ oyiga</span>
+                <span className="text-xs text-slate-500 font-normal ml-1">{t.pricing.calculator.perMonth}</span>
               </div>
               <p className="text-slate-500 text-xs mb-5">
-                * 1-3 GB hajmdagi serverlar yangi foydalanuvchilar uchun bepul beriladi!
+                {t.pricing.calculator.freeNote}
               </p>
               <button
                 onClick={() => onOpenModal(`Custom Server (${ram} GB RAM)`)}
                 className="w-full py-3.5 rounded-full bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-sky-500/25 transition-all hover:-translate-y-0.5 cursor-pointer"
               >
-                HOSTING SERVERINI YARATISH
+                {t.pricing.calculator.btn}
               </button>
             </div>
 
